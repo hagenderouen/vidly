@@ -10,7 +10,6 @@ using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
-    [Route("")]
     public class CustomersController : Controller
     {
         // GET: /Customers/
