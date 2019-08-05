@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vidly.Areas.Identity.Data;
 
 namespace Vidly.Migrations
 {
     [DbContext(typeof(VidlyIdentityDbContext))]
-    partial class VidlyIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190805211202_AddCustomerIsSubscribedToNewsLetter")]
+    partial class AddCustomerIsSubscribedToNewsLetter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
