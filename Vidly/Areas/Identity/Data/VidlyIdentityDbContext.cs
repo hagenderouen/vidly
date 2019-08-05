@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Vidly.Models;
 
 namespace Vidly.Areas.Identity.Data
 {
     public class VidlyIdentityDbContext : IdentityDbContext<IdentityUser>
     {
+        public DbSet<Customer> Customers { get; set; }
+
         public VidlyIdentityDbContext(DbContextOptions<VidlyIdentityDbContext> options)
             : base(options)
         {
