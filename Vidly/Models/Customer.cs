@@ -7,11 +7,9 @@ namespace Vidly.Models
         public bool IsSubscribedToNewsLetter { get; set; }
         public MembershipType MembershipType { get; set; }
         public byte MembershipTypeId { get; set; }
-
-        // SQLite does not support this migration operation ('AddForeignKeyOperation'). For more information, see http://go.microsoft.com/fwlink/?LinkId=723262.
-
-        [Required]
         public int Id { get; set; }
+        [Required]
+        [StringLength(255)]
         public string Name { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vidly.Areas.Identity.Data;
 
 namespace Vidly.Migrations
 {
     [DbContext(typeof(VidlyIdentityDbContext))]
-    partial class VidlyIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190807180353_PopulateMembershipTypes")]
+    partial class PopulateMembershipTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,9 +188,7 @@ namespace Vidly.Migrations
 
                     b.Property<byte>("MembershipTypeId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
