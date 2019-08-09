@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Vidly.Areas.Identity.Data;
 using Vidly.Areas.AppData;
 using Vidly.Models;
 using Vidly.ViewModels;
@@ -27,6 +24,26 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+        public IActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList<MembershipType>();
+            var viewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+
+            return View("CustomerForm", viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Cusomers");
+        }
+
         // GET: /Customers/
         public IActionResult Index()
         {
@@ -44,6 +61,21 @@ namespace Vidly.Controllers
                 throw new ArgumentException("The page is not found");
 
             return View(customer);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+
+            if (customer == null) throw new ArgumentException("This page is not found.");
+
+            var viewmodel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewmodel);
         }
     }
 }
