@@ -31,7 +31,7 @@ namespace Vidly.Migrations
                 table: "Customers",
                 column: "MembershipTypeId");
 
-            // Not supported in Sqlite
+            // Not supported in Sqlite. Apply these directly to the db.
             //migrationBuilder.AddForeignKey(
             //    name: "FK_Customers_MembershipType_MembershipTypeId",
             //    table: "Customers",

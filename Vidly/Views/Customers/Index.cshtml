@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Vidly.Models.Customer>
+﻿    @model IEnumerable<Vidly.Models.Customer>
 @*
     @*
     Note: I've set the model for this view to IEnumerable<Customer>.
@@ -26,6 +26,7 @@ else
         <thead>
             <tr>
                 <th>Customer</th>
+                <th>Membership Type</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@ else
                         @Html.ActionLink(customer.Name, "Details", "Customers",
                              new { id = customer.Id }, null)
                     </td>
+                    <td>@customer.MembershipType.Name</td>
                 </tr>
             }
         </tbody>

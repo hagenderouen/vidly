@@ -8,6 +8,8 @@ namespace Vidly.Models
         public MembershipType MembershipType { get; set; }
         public byte MembershipTypeId { get; set; }
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime? Birthdate { get; set; }
         [Required]
         [StringLength(255)]
         public string Name { get; set; }

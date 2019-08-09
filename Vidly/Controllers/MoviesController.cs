@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
+using Vidly.Areas.AppData;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,21 +14,34 @@ namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDataDbContext _context;
+
+        public MoviesController()
+        {
+            _context = new ApplicationDataDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();    
+        }
         // GET; /Movies
         public IActionResult Index()
         {
-            var movies = GetMovies();
+            var movies = _context.Movies.Include(m => m.Genre).ToList<Movie>();
 
             return View(movies);
         }
 
-        private IEnumerable<Movie> GetMovies()
+        // GET: /Movies/Details
+        public IActionResult Details(int id)
         {
-            return new List<Movie>
-            {
-                new Movie { Name = "Shrek 2", Id = 1 },
-                new Movie { Name = "Wall-e", Id = 2 }
-            };
+            var movie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
+
+            if (movie == null) throw new ArgumentException("This page is not found.");
+
+            return View(movie);
+            
         }
 
         // GET: /Movies/Random
@@ -54,5 +69,7 @@ namespace Vidly.Controllers
         {
             return Content(year + "/" + month);
         }
+
+
     }
 }

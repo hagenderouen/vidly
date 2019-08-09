@@ -19,5 +19,6 @@
     <Folder Include="Views\Customers\" />
     <Folder Include="Views\Movies\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Areas\AppData\" />
   </ItemGroup>
 </Project>

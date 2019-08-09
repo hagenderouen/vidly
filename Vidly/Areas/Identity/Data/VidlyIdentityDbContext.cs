@@ -11,7 +11,6 @@ namespace Vidly.Areas.Identity.Data
 {
     public class VidlyIdentityDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<Customer> Customers { get; set; }
 
         public VidlyIdentityDbContext(DbContextOptions<VidlyIdentityDbContext> options)
             : base(options)
