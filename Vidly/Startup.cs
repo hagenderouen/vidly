@@ -48,6 +48,7 @@ namespace Vidly
                 app.UseHsts();
             }
 
+            app.UseStatusCodePages();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();

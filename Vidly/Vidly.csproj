@@ -20,5 +20,10 @@
     <Folder Include="Views\Movies\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Areas\AppData\" />
+    <Folder Include="Controllers\Api\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Movies\EditMovieForm.cshtml" />
+    <Content Remove="Views\Movies\NewMovieForm.cshtml" />
   </ItemGroup>
 </Project>

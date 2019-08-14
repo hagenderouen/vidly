@@ -30,12 +30,13 @@ namespace Vidly.Controllers
         public IActionResult New()
         {
             var genres = _context.Genres.ToList<Genre>();
+
             var viewModel = new MovieFormViewModel
             {
                 Genres = genres
             };
 
-            return View("NewMovieForm", viewModel);
+            return View("MovieForm", viewModel);
         }
 
         [HttpPost]
@@ -44,13 +45,12 @@ namespace Vidly.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new MovieFormViewModel
+                var viewModel = new MovieFormViewModel(movie)
                 {
-                    Movie = movie,
                     Genres = _context.Genres.ToList()
                 };
 
-                return View("NewMovieForm", viewModel);
+                return View("MovieForm", viewModel);
             }
 
             if (movie.Id == 0)
@@ -75,13 +75,12 @@ namespace Vidly.Controllers
 
             if (movie == null) throw new ArgumentException("This page is not found.");
 
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel(movie)
             {
-                Movie = movie,
                 Genres = _context.Genres.ToList()
             };
 
-            return View("EditMovieForm", viewModel);
+            return View("MovieForm", viewModel);
         }
 
         // GET; /Movies
