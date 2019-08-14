@@ -7,3 +7,7 @@
 <h2>New Movie</h2>
 
 <partial name="_MovieForm" />
+
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
