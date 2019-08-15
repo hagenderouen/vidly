@@ -72,11 +72,11 @@ namespace Vidly.Controllers.Api
 
         // DELETE api/customers/1 TODO: Getting an unhandled exception!
         [HttpDelete("{id}")]
-        public void Delete(int id, Customer customer)
+        public void Delete(int id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
-            _context.Customers.Remove(customer);
+            _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
         }
     }
