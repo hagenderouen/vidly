@@ -7,6 +7,8 @@ using Vidly.Models;
 using Vidly.Areas.AppData;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Vidly.Areas.Dtos;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,22 +19,24 @@ namespace Vidly.Controllers.Api
     public class CustomersController : Controller
     {
         private ApplicationDataDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CustomersController()
+        public CustomersController(IMapper mapper)
         {
             _context = new ApplicationDataDbContext();
+            _mapper = mapper;
         }
 
         // GET: api/customers
         [HttpGet]
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList();
+            return _context.Customers.ToList().Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         // GET: api/customers/1
         [HttpGet("{id}")]
-        public Customer GetCustomer(int id)
+        public CustomerDto GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -40,37 +44,37 @@ namespace Vidly.Controllers.Api
             if (customer == null)
                 throw new ArgumentException("The customer is not found.");
 
-            return customer;
+            return _mapper.Map<Customer, CustomerDto>(customer);
         }
 
         // POST api/customers
         [HttpPost]
-        public Customer CreateCustomer(Customer customer)
+        public CustomerDto CreateCustomer(CustomerDto customerDto)
         {
+            var customer = _mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            customerDto.Id = customer.Id;
+
+            return customerDto;
         }
 
         // PUT api/customers/1
         [HttpPut("{id}")]
-        public void UpDateCustomer(int id, Customer customer)
+        public void UpDateCustomer(int id, CustomerDto customerDto)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
                 throw new ArgumentException("This Customer is not found.");
 
-            customerInDb.Name = customer.Name;
-            customerInDb.Birthdate = customer.Birthdate;
-            customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
+            _mapper.Map(customerDto, customerInDb);
 
             _context.SaveChanges();
         }
 
-        // DELETE api/customers/1 TODO: Getting an unhandled exception!
+        // DELETE api/customers/1
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Automapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreAppRuntimeFrameworkVersion)">
       <IsImplicitlyDefined>true</IsImplicitlyDefined>
       <PrivateAssets>all</PrivateAssets>
@@ -21,6 +22,7 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Areas\AppData\" />
     <Folder Include="Controllers\Api\" />
+    <Folder Include="Areas\Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Movies\EditMovieForm.cshtml" />
