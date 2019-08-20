@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using Newtonsoft.Json.Serialization;
 
 namespace Vidly
 {
@@ -32,7 +33,11 @@ namespace Vidly
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                // This lambda adds Json camelCase properties
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
             services.AddAutoMapper(typeof(MappingProfile));
         }
 
