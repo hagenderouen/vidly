@@ -11,7 +11,7 @@ namespace Vidly.Areas.Dtos
 
         public int Id { get; set; }
 
-        [Min18YearsIfAMember]
+//        [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
 
         [Required]
