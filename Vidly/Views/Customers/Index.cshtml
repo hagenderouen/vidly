@@ -1,6 +1,5 @@
 ﻿    @model IEnumerable<Vidly.Models.Customer>
 @*
-    @*
     Note: I've set the model for this view to IEnumerable<Customer>.
     This is a simple interface implemented by the list class. Since
     in this view we only want to iterate over this list, and we don't
@@ -22,11 +21,12 @@
 }
 else
 {
-    <table>
+    <table class="table table-bordered" id="customers">
         <thead>
             <tr>
                 <th>Customer</th>
                 <th>Membership Type</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +38,32 @@ else
                              new { id = customer.Id }, null)
                     </td>
                     <td>@customer.MembershipType.Name</td>
+                    <td>
+                        <button data-customer-id="@customer.Id" class=" btn-link js-delete">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+}
+@section scripts {
+    <script>$(document).ready(function () {
+            $("#customers").DataTable();
+
+            $("#customers").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+            });
+        });</script>
 }

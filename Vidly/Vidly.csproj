@@ -23,6 +23,8 @@
     <Folder Include="Areas\AppData\" />
     <Folder Include="Controllers\Api\" />
     <Folder Include="Areas\Dtos\" />
+    <Folder Include="wwwroot\lib\bootbox\" />
+    <Folder Include="wwwroot\lib\bootbox\dist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Movies\EditMovieForm.cshtml" />
