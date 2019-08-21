@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Vidly.Areas.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Vidly.Controllers.Api
 {
@@ -30,7 +31,10 @@ namespace Vidly.Controllers.Api
         [HttpGet]
         public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList().Select(_mapper.Map<Customer, CustomerDto>);
+            return _context.Customers
+                .Include(c => c.MembershipType)
+                .ToList()
+                .Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         // GET: api/customers/1

@@ -9,9 +9,13 @@ namespace Vidly
     {
         public MappingProfile()
         {
+            // Domain to Dto
             CreateMap<Customer, CustomerDto>();
-            CreateMap<CustomerDto, Customer>();
             CreateMap<Movie, MovieDto>();
+            CreateMap<MembershipType, MembershipTypeDto>();
+            
+            // Dto to Domain
+            CreateMap<CustomerDto, Customer>();
             CreateMap<MovieDto, Movie>();
         }
     }
