@@ -13,6 +13,8 @@ namespace Vidly.Areas.Dtos
         [Required]
         public byte GenreId { get; set; }
 
+        public GenreDto Genre { get; set; }
+
         [Required]
         [Display(Name = "Release Date")]
         [DisplayFormat(DataFormatString = "{0:d}")]
