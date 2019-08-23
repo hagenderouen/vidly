@@ -9,9 +9,11 @@ namespace Vidly.Areas.Dtos
         
         public byte MembershipTypeId { get; set; }
 
+        public MembershipTypeDto MembershipType { get; set; }
+
         public int Id { get; set; }
 
-        [Min18YearsIfAMember]
+//        [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
 
         [Required]

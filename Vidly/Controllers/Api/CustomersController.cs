@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Vidly.Areas.Dtos;
 using AutoMapper;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Vidly.Controllers.Api
 {
@@ -31,25 +31,30 @@ namespace Vidly.Controllers.Api
         [HttpGet]
         public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList().Select(_mapper.Map<Customer, CustomerDto>);
+            return _context.Customers
+                .Include(c => c.MembershipType)
+                .ToList()
+                .Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         // GET: api/customers/1
         [HttpGet("{id}")]
-        public CustomerDto GetCustomer(int id)
+        [ProducesResponseType(typeof(Customer), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
-
             if (customer == null)
-                throw new ArgumentException("The customer is not found.");
+                return NotFound();
 
-            return _mapper.Map<Customer, CustomerDto>(customer);
+            return Ok(_mapper.Map<Customer, CustomerDto>(customer));
         }
 
         // POST api/customers
         [HttpPost]
-        public CustomerDto CreateCustomer(CustomerDto customerDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult CreateCustomer(CustomerDto customerDto)
         {
             var customer = _mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
@@ -57,7 +62,7 @@ namespace Vidly.Controllers.Api
 
             customerDto.Id = customer.Id;
 
-            return customerDto;
+            return Created(new Uri(Request.Path + customer.Id, UriKind.Relative), customerDto);
         }
 
         // PUT api/customers/1
@@ -67,7 +72,7 @@ namespace Vidly.Controllers.Api
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
-                throw new ArgumentException("This Customer is not found.");
+                throw new ArgumentException("Customer not found.");
 
             _mapper.Map(customerDto, customerInDb);
 
@@ -76,7 +81,7 @@ namespace Vidly.Controllers.Api
 
         // DELETE api/customers/1
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void DeleteCustomer(int id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
