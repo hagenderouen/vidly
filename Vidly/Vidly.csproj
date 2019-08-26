@@ -31,4 +31,7 @@
     <Content Remove="Views\Movies\EditMovieForm.cshtml" />
     <Content Remove="Views\Movies\NewMovieForm.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ApplicationDbInitializer.cs" />
+  </ItemGroup>
 </Project>
