@@ -19,7 +19,7 @@ namespace Vidly.Areas.Identity
                     options.UseSqlite(
                         context.Configuration.GetConnectionString("VidlyIdentityDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>()
+                services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<VidlyIdentityDbContext>();
             });
         }

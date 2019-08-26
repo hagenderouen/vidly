@@ -7,11 +7,13 @@ using Vidly.Models;
 using Vidly.ViewModels;
 using Vidly.Areas.AppData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Vidly.Controllers
 {
+   [Authorize(Policy = "CanManageMovies")]
     public class MoviesController : Controller
     {
         private ApplicationDataDbContext _context;

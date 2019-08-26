@@ -13,6 +13,9 @@ using AutoMapper;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Vidly.Areas.AppData;
+using Vidly.Areas.Identity.Data;
 
 namespace Vidly
 {
@@ -35,24 +38,25 @@ namespace Vidly
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 // This lambda adds Json camelCase properties
                 .AddJsonOptions(options =>
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-            services.AddMvc(o =>
+            // This lambda adds an authoirzation policy
+            services.AddAuthorization(options =>
             {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                o.Filters.Add(new AuthorizeFilter(policy));
+                options.AddPolicy("CanManageMovies",
+                    policy => policy.RequireRole("Admin"));
             });
-
+                        
             services.AddAutoMapper(typeof(MappingProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -68,6 +72,10 @@ namespace Vidly
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+
+            // This Seeds users and roles
+            MyIdentityDbInitializer.SeedData(userManager, roleManager);
+
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
