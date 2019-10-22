@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace Vidly
 {
@@ -12,6 +13,8 @@ namespace Vidly
             SeedUsers(userManager);
         }
 
+        // Try converting the method SeedUsers to async and awaiting the calls to usermanager
+
         public static void SeedUsers(UserManager<IdentityUser> userManager)
         {
             if (userManager.FindByNameAsync
@@ -19,7 +22,7 @@ namespace Vidly
             {
                 IdentityUser user = new IdentityUser();
                 user.UserName = "user@vidly.com";
-                user.Email = "user1@localhost";
+                user.Email = "user@vidly.com";
 
                 IdentityResult result = userManager.CreateAsync
                 (user, "Password#1").Result;
